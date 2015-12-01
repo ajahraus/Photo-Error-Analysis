@@ -22,6 +22,11 @@ classdef Plane
             
             end
         end
+        
+        function points = obj.samplePlane(numPoints)
+            % Needs some improvement
+            points = zeros(size(numPoints),3);
+        end
     end
     
 end
