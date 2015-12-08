@@ -25,7 +25,6 @@ classdef Plane
             end
         end
         
-        
         function points = samplePlane(obj, numPoints)
             % points = obj.samplePlane(numPoints)
             % This function takes an argument of the number of points that
