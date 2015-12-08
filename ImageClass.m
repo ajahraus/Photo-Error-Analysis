@@ -25,8 +25,10 @@ classdef ImageClass
        end
        
        function displayImageInObjectSpace(obj,varparam)
-           
-           figure, hold on
+           if varparam ~= 1 
+               figure,
+           end
+           hold on
            loc = obj.location;
            M =0.05* rotz(obj.direction(3))*roty(obj.direction(2))*rotx(obj.direction(1));
            
@@ -37,13 +39,13 @@ classdef ImageClass
            
            LOC = repmat(loc,4,1);
            width = obj.camera.sensorSize/2;
-           CORNERS = (0.1/24)*[width(1),width(2),obj.camera.principleDistance;
+           CORNERS = (1/24)*[width(1),width(2),obj.camera.principleDistance;
                -width(1),width(2),obj.camera.principleDistance;
                -width(1),-width(2),obj.camera.principleDistance;
-               width(1),-width(2),obj.camera.principleDistance;];
+               width(1),-width(2),obj.camera.principleDistance;]*M;
            
            quiver3(LOC(:,1),LOC(:,2),LOC(:,3),CORNERS(:,1),CORNERS(:,2),CORNERS(:,3),0,'b')
-               
+           plot3(loc(1),loc(2),loc(3),'.k')
            
            
        end
