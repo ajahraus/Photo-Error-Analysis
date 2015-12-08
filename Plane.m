@@ -4,6 +4,7 @@ classdef Plane
         normal
         centroid
         distance_to_origin
+        area
     end
     
     methods
@@ -19,27 +20,38 @@ classdef Plane
                 obj.centroid = mean(corners);
                 
                 obj.distance_to_origin = abs(dot(obj.normal, obj.vertexs(1,:)));
-                
+
+                obj.area = 0.5 * norm( cross(L1,L2) );
             end
         end
         
         
         function points = samplePlane(obj, numPoints)
             % Needs some improvement
-            points = zeros(numPoints,3);
+            points = zeros(size(numPoints),3);
+            
+            point_spacing = sqrt(numPoints/obj.area);
             v = obj.vertexs;
+            v1 = v(1,:);
+            v2 = v(2,:);
+            v3 = v(3,:);
             
-            L1 = norm(v(2,:) - v(1,:));
-            L2 = norm(v(3,:) - v(1,:));
-            L3 = norm(v(3,:) - v(2,:));
+            [~, index] = max( [norm(v2-v1),norm(v3-v1),norm(v3-v2)]);
+            if index==1
+                base = v1;
+                dir = (v2-v1)/norm(v2-v1);
+                cross_dir = cross(obj.normal,dir);
+            elseif index == 2
+                base = v1;
+                dir = (v3-v1)/norm(v3-v1);
+                cross_dir = cross(obj.normal,dir);
+            else
+                base = v2;
+                dir = (v3-v2)/norm(v3-v2);
+                cross_dir = cross(obj.normal,dir);
+            end
             
-            temp = sortrows([L1, v(2,:)-v(1,:),12; L2, v(3,:) - v(1,:),13; L3, v(3,:) - v(2,:),23]);
-            
-            Longest_vector = temp(3, 2:4);
-            Second_vector = temp(2, 2:4);
-            
-            
-            
+                
         end
     end
     
