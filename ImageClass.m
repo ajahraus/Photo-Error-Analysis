@@ -26,7 +26,7 @@ classdef ImageClass
        
        function displayImageInObjectSpace(obj,varparam)
            if varparam ~= 1 
-               figure,
+               figure;
            end
            hold on
            loc = obj.location;
@@ -50,6 +50,34 @@ classdef ImageClass
            
        end
        
+       function imagePoints = observePoints(obj, points)
+           
+           c = obj.camera.principleDistance;
+           M = rotz(obj.direction(3))*roty(obj.direction(2))*rotx(obj.direction(1));
+           X_0 = obj.location(1);
+           Y_0 = obj.location(2);
+           Z_0 = obj.location(3);
+           img_x = zeros(size(points,1),1);
+           img_y = img_x; 
+           
+           for i = 1:size(points,1)
+               X = points(i,1);
+               Y = points(i,2);
+               Z = points(i,3);
+               
+               img_x(i) = round((-c*(M(1,1)*(X-X_0) + M(1,2)*(Y-Y_0) + M(1,3)*(Z-Z_0))...
+                   /(M(3,1)*(X-X_0) + M(3,2)*(Y-Y_0) + M(3,3)*(Z-Z_0)))/obj.camera.pixelSize)*obj.camera.pixelSize;
+               img_y(i) = round((-c*(M(2,1)*(X-X_0) + M(2,2)*(Y-Y_0) + M(2,3)*(Z-Z_0))...
+                   /(M(3,1)*(X-X_0) + M(3,2)*(Y-Y_0) + M(3,3)*(Z-Z_0)))/obj.camera.pixelSize)*obj.camera.pixelSize;
+               
+           end
+           
+           key1 = img_x < obj.camera.sensorSize(1)/2;
+           key2 = img_y < obj.camera.sensorSize(2)/2;
+           
+           imagePoints = deleteRowKey([img_x, img_y], key1.*key2);
+           
+       end
    end
    
    methods (Static)
