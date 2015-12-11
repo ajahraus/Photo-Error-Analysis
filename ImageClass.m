@@ -17,7 +17,7 @@ classdef ImageClass
            obj.camera = cam;
            
            % Something should be done here to ensure uniqueness 
-           obj.ImageID = obj.GenerateRandomImageName(10);
+           obj.ImageID = obj.GenerateRandomImageName(6);
            
            % This also needs to relate to the planar models. Probably
            % appropriate to create its own function, though. 
@@ -34,7 +34,7 @@ classdef ImageClass
            
            quiver3(loc(1),loc(2),loc(3),M(1,1),M(1,2),M(1,3),0,'r')
            quiver3(loc(1),loc(2),loc(3),M(2,1),M(2,2),M(2,3),0,'g')
-           quiver3(loc(1),loc(2),loc(3),M(3,1),M(3,2),M(3,3),0,'m')
+           quiver3(loc(1),loc(2),loc(3),M(3,1),M(3,2),M(3,3),0,'b')
            axis equal
            
            LOC = repmat(loc,4,1);
@@ -44,7 +44,7 @@ classdef ImageClass
                -width(1),-width(2),obj.camera.principleDistance;
                width(1),-width(2),obj.camera.principleDistance;]*M;
            
-           quiver3(LOC(:,1),LOC(:,2),LOC(:,3),CORNERS(:,1),CORNERS(:,2),CORNERS(:,3),0,'b')
+           quiver3(LOC(:,1),LOC(:,2),LOC(:,3),CORNERS(:,1),CORNERS(:,2),CORNERS(:,3),0,'k')
            plot3(loc(1),loc(2),loc(3),'.k')
            
            
@@ -60,10 +60,16 @@ classdef ImageClass
            img_x = zeros(size(points,1),1);
            img_y = img_x; 
            
+           key3  = ones(size(img_y));
            for i = 1:size(points,1)
                X = points(i,1);
                Y = points(i,2);
                Z = points(i,3);
+               temp = M*[X;Y;Z];
+               
+               if temp(3) < 0
+                   key3(i) = 0;
+               end
                
                img_x(i) = round((-c*(M(1,1)*(X-X_0) + M(1,2)*(Y-Y_0) + M(1,3)*(Z-Z_0))...
                    /(M(3,1)*(X-X_0) + M(3,2)*(Y-Y_0) + M(3,3)*(Z-Z_0)))/obj.camera.pixelSize)*obj.camera.pixelSize;
@@ -75,7 +81,7 @@ classdef ImageClass
            key1 = img_x < obj.camera.sensorSize(1)/2;
            key2 = img_y < obj.camera.sensorSize(2)/2;
            
-           imagePoints = deleteRowKey([img_x, img_y], key1.*key2);
+           imagePoints = deleteRowKey([img_x, img_y], key1.*key2.*key3);
            
        end
    end
@@ -91,6 +97,7 @@ classdef ImageClass
            for i = 1:lengthOfName
                name(i) = setOfValidChars(randIndexs(i));
            end
+           name = ['Image_',name];
        end
    end
 end
