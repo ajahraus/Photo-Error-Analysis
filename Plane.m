@@ -10,7 +10,7 @@ classdef Plane
     
     methods
         function obj = Plane(corners)
-            if nargin ~= 0
+            if nargin > 0
                 obj.vertexs = corners;
                 L1 = obj.vertexs(2,:) - obj.vertexs(1,:);
                 L2 = obj.vertexs(3,:) - obj.vertexs(1,:);
@@ -28,7 +28,7 @@ classdef Plane
             end
         end
         
-        function points = samplePlane(obj, numPoints)
+        function points_class = samplePlane(obj, numPoints)
             % points = obj.samplePlane(numPoints)
             % This function takes an argument of the number of points that
             % the plane is to have sampled from it. The sampling is done in
@@ -116,6 +116,11 @@ classdef Plane
             %             plot3(V(:,1),V(:,2),V(:,3))
             %             axis equal
             %             title('all constraints')
+            for i = 1:size(points,1)
+                points_class(i) = Point(points(i,:));
+            end
+            
+            
         end
     end
     

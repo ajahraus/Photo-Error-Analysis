@@ -5,9 +5,10 @@ classdef Point
     end
     methods
         function obj = Point(xyz)
-            obj.xyz = xyz;
-            obj.name = GenerateRandomPointName(10);
-            
+            if nargin > 0
+                obj.xyz = xyz;
+                obj.name = obj.GenerateRandomPointName(10);
+            end
         end
         
     end
