@@ -32,7 +32,7 @@ classdef ImageClass
             end
             hold on
             loc = obj.location;
-            M =0.05* rotz(obj.direction(3))*roty(obj.direction(2))*rotx(obj.direction(1));
+            M =0.05* rotz(obj.direction(3))*roty(pi+obj.direction(2))*rotx(obj.direction(1));
             
             quiver3(loc(1),loc(2),loc(3),M(1,1),M(1,2),M(1,3),0,'r')
             quiver3(loc(1),loc(2),loc(3),M(2,1),M(2,2),M(2,3),0,'g')
@@ -54,19 +54,28 @@ classdef ImageClass
         
         function imagePoints = observePoints(obj, points)
             
+            if ~isa(points,'Point')
+                temp = Point(size(points,1));
+                for i = 1:size(points,1)
+                    temp(i) = points(i,:);
+                end
+                points = temp;
+            end
+            
             c = obj.camera.principleDistance;
             M = rotz(obj.direction(3))*roty(obj.direction(2))*rotx(obj.direction(1));
             X_0 = obj.location(1);
             Y_0 = obj.location(2);
             Z_0 = obj.location(3);
-            img_x = zeros(size(points,1),1);
+            
+            img_x = zeros(length(points),1);
             img_y = img_x;
             
             key3  = ones(size(img_y));
-            for i = 1:size(points,1)
-                X = points(i,1);
-                Y = points(i,2);
-                Z = points(i,3);
+            for i = 1:length(points)
+                X = points(i).xyz(1);
+                Y = points(i).xyz(2);
+                Z = points(i).xyz(3);
                 temp = M*[X;Y;Z];
                 
                 if temp(3) < 0
