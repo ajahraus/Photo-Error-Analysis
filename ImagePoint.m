@@ -12,7 +12,7 @@ classdef ImagePoint
                 obj.imageName = img.ImageID;
                 obj.cameraName = img.camera.cameraID;
                 obj.pointName = pnt.pointName;
-                obj.coodinates  = [x,y];
+                obj.coordinates  = [x,y];
                 
             end
         end
