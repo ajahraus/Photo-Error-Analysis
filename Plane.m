@@ -1,5 +1,6 @@
 classdef Plane
     properties
+        name
         vertexs
         normal
         centroid
@@ -20,8 +21,10 @@ classdef Plane
                 obj.centroid = mean(corners);
                 
                 obj.distance_to_origin = abs(dot(obj.normal, obj.vertexs(1,:)));
-
+                
                 obj.area = 0.5 * norm( cross(L1,L2) );
+                
+                obj.name = obj.GenerateRandomPlaneName(4);
             end
         end
         
@@ -33,8 +36,8 @@ classdef Plane
             % sampled orthogonally to it. The number of points in the
             % sample is not exact, so the actual number of points returned
             % may nat exactly correspond to the number of points specified
-            % in the input. 
-                        
+            % in the input.
+            
             point_spacing = sqrt(obj.area/numPoints);
             vert = obj.vertexs;
             v1 = vert(1,:);
@@ -59,7 +62,7 @@ classdef Plane
             len = norm(vec1);
             dir = (vec1)/len ;
             
-%             cross_vec = vec2-dot(vec2,dir);
+            %             cross_vec = vec2-dot(vec2,dir);
             cross_dir1 = cross(obj.normal, vec1);
             cross_dir = cross_dir1/norm(cross_dir1);
             cross_len = sqrt(norm(vec2)^2 - dot(vec2,dir)^2);
@@ -67,25 +70,25 @@ classdef Plane
             
             a= [0:point_spacing:len]';
             linear_samples = [dir(1)*a,dir(2)*a,dir(3)*a]+repmat(base,length(a),1);
-                                    
+            
             numCross = ceil(cross_len/point_spacing);
-            all_samples = []; 
+            all_samples = [];
             
             for i = 0:numCross
                 
                 new_samples = linear_samples + repmat(cross_dir*point_spacing*i,size(linear_samples,1),1);
                 
                 all_samples = [all_samples;new_samples];
-            end            
+            end
             
-%             figure, hold on
-% %             plot3([base(1),base(1)+len*dir(1)],[base(2),base(2)+len*dir(2)],[base(3),base(3)+len*dir(3)])
-% %             plot3(linear_samples(:,1),linear_samples(:,2),linear_samples(:,3),'.r')
-%             plot3(all_samples(:,1),all_samples(:,2),all_samples(:,3),'.k')
-%             V = [vert;vert(1,:)];
-%             plot3(V(:,1),V(:,2),V(:,3))
-%             axis equal
-                
+            %             figure, hold on
+            % %             plot3([base(1),base(1)+len*dir(1)],[base(2),base(2)+len*dir(2)],[base(3),base(3)+len*dir(3)])
+            % %             plot3(linear_samples(:,1),linear_samples(:,2),linear_samples(:,3),'.r')
+            %             plot3(all_samples(:,1),all_samples(:,2),all_samples(:,3),'.k')
+            %             V = [vert;vert(1,:)];
+            %             plot3(V(:,1),V(:,2),V(:,3))
+            %             axis equal
+            
             v0 = repmat(vec1, size(all_samples,1),1);
             v1 = repmat(vec2, size(all_samples,1),1);
             v2 = all_samples - repmat(base, size(all_samples,1),1);
@@ -106,18 +109,28 @@ classdef Plane
             key = key1.*key2.*key3;
             
             points = deleteRowKey(all_samples,key);
-
-%             V = [vert;vert(1,:)];
-%             figure,hold on
-%             plot3(points(:,1),points(:,2),points(:,3),'r.')
-%             plot3(V(:,1),V(:,2),V(:,3))
-%             axis equal
-%             title('all constraints')
+            
+            %             V = [vert;vert(1,:)];
+            %             figure,hold on
+            %             plot3(points(:,1),points(:,2),points(:,3),'r.')
+            %             plot3(V(:,1),V(:,2),V(:,3))
+            %             axis equal
+            %             title('all constraints')
         end
     end
     
     methods (Static)
-        
+        function name = GenerateRandomPlaneName(lengthOfName)
+            
+            setOfValidChars = char(['a':'z','0':'9']);
+            num = length(setOfValidChars );
+            randIndexs =  ceil( num*rand(1,lengthOfName) );
+            name = char(zeros(size(1,lengthOfName)));
+            
+            for i = 1:lengthOfName
+                name(i) = setOfValidChars(randIndexs(i));
+            end
+            name = ['Plane_',name];
+        end
     end
-    
 end
