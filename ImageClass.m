@@ -89,8 +89,8 @@ classdef ImageClass
                 
             end
             
-            key1 = img_x < obj.camera.sensorSize(1)/2;
-            key2 = img_y < obj.camera.sensorSize(2)/2;
+            key1 = abs(img_x) < obj.camera.sensorSize(1)/2;
+            key2 = abs(img_y) < obj.camera.sensorSize(2)/2;
             
             imagePoints = deleteRowKey([img_x, img_y], key1.*key2.*key3);
             
