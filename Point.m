@@ -1,16 +1,15 @@
 classdef Point
     properties
         xyz
-        name
+        pointName
     end
     methods
         function obj = Point(xyz)
             if nargin > 0
                 obj.xyz = xyz;
-                obj.name = obj.GenerateRandomPointName(10);
+                obj.pointName = obj.GenerateRandomPointName(10);
             end
         end
-        
     end
     methods (Static)
         function name = GenerateRandomPointName(lengthOfName)

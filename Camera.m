@@ -6,6 +6,7 @@ classdef Camera
         sensorArrayPx
         sensorSize
         pixelSize
+        cameraID
     end
     
     methods
@@ -16,7 +17,7 @@ classdef Camera
             obj.sensorArrayPx = [3264,4928]; % pixels, in rows then coloumns
             obj.pixelSize = 0.00481; % mm, or 4.81 microns
             obj.sensorSize = obj.sensorArrayPx *obj.pixelSize; % mm
-            
+            obj.cameraID = 99;
             
         end
         
