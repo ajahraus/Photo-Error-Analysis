@@ -116,6 +116,8 @@ classdef Plane
             %             plot3(V(:,1),V(:,2),V(:,3))
             %             axis equal
             %             title('all constraints')
+            points_class = Point(size(points,1));
+            
             for i = 1:size(points,1)
                 points_class(i) = Point(points(i,:));
             end
