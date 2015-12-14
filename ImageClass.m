@@ -76,16 +76,14 @@ classdef ImageClass
                 X = points(i).xyz(1);
                 Y = points(i).xyz(2);
                 Z = points(i).xyz(3);
-                temp = M*[X;Y;Z];
+                localVec = M*[X-X_0;Y-Y_0;Z-Z_0];
                 
-                if temp(3) < 0
+                if localVec(3) < 0
                     key3(i) = 0;
                 end
                 
-                img_x(i) = round((-c*(M(1,1)*(X-X_0) + M(1,2)*(Y-Y_0) + M(1,3)*(Z-Z_0))...
-                    /(M(3,1)*(X-X_0) + M(3,2)*(Y-Y_0) + M(3,3)*(Z-Z_0)))/obj.camera.pixelSize)*obj.camera.pixelSize;
-                img_y(i) = round((-c*(M(2,1)*(X-X_0) + M(2,2)*(Y-Y_0) + M(2,3)*(Z-Z_0))...
-                    /(M(3,1)*(X-X_0) + M(3,2)*(Y-Y_0) + M(3,3)*(Z-Z_0)))/obj.camera.pixelSize)*obj.camera.pixelSize;
+                img_x(i) = round((-c*localVec(1)/localVec(3))/obj.camera.pixelSize)*obj.camera.pixelSize;
+                img_y(i) = round((-c*localVec(2)/localVec(3))/obj.camera.pixelSize)*obj.camera.pixelSize;
                 
             end
             
