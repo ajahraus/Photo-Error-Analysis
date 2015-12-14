@@ -2,12 +2,14 @@ classdef Point
     properties
         xyz
         pointName
+        planeName
     end
     methods
-        function obj = Point(xyz)
+        function obj = Point(xyz,plane)
             if nargin > 0
                 obj.xyz = xyz;
                 obj.pointName = obj.GenerateRandomPointName(10);
+                obj.planeName = plane.name;
             end
         end
     end
