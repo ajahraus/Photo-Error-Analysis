@@ -1,7 +1,7 @@
 % Photogrammetry Script
 
 close all
-clear all
+clear 
 clc
 
 %% 
@@ -25,5 +25,6 @@ end
 axis equal
 
 %%
+close all
 img_points_1 = I(1).observePoints(points)
 img_points_2 = I(2).observePoints(points)
