@@ -5,11 +5,15 @@ classdef Point
         planeName
     end
     methods
-        function obj = Point(xyz,plane)
-            if nargin > 0
-                obj.xyz = xyz;
+        function obj = Point(varargin)
+            if length(varargin) == 2
+                obj.xyz = varargin{1};
                 obj.pointName = obj.GenerateRandomPointName(10);
-                obj.planeName = plane.name;
+                obj.planeName = varargin{2}.name;
+            elseif length(varargin) == 1
+                obj.xyz = varargin{1};
+                obj.pointName = obj.GenerateRandomPointName(10);
+                obj.planeName = '';
             end
         end
     end
