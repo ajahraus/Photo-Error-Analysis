@@ -3,7 +3,7 @@ classdef ImagePoint
         cameraName
         imageName
         point
-        coordinates
+        coords
         
     end
     methods

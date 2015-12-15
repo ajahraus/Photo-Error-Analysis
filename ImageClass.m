@@ -52,7 +52,7 @@ classdef ImageClass
             
         end
         
-        function imagePoints = observePoints(obj, points)
+        function FinalImageObs = observePoints(obj, points)
             
             if ~isa(points,'Point')
                 temp = Point(size(points,1));
@@ -68,29 +68,123 @@ classdef ImageClass
             Y_0 = obj.location(2);
             Z_0 = obj.location(3);
             
-            img_x = zeros(length(points),1);
-            img_y = img_x;
-            
-            key3  = ones(size(img_y));
+
+            imageObs = ImagePoint();
+            rangeToPnt = [];
+            flag = 1;
             for i = 1:length(points)
                 X = points(i).xyz(1);
                 Y = points(i).xyz(2);
                 Z = points(i).xyz(3);
                 localVec = M*[X-X_0;Y-Y_0;Z-Z_0];
                 
-                if localVec(3) > 0
-                    key3(i) = 0;
+                img_x = round((-c*localVec(1)/localVec(3))/obj.camera.pixelSize)*obj.camera.pixelSize;
+                img_y = round((-c*localVec(2)/localVec(3))/obj.camera.pixelSize)*obj.camera.pixelSize;
+                
+                if abs(img_x) < obj.camera.sensorSize(1)/2 & abs(img_y) < obj.camera.sensorSize(2)/2 & localVec(3)<0
+                    if flag == 1
+                        flag = 0;
+                        imageObs = ImagePoint(obj,points(i),[img_x,img_y]);
+                        rangeToPnt = [rangeToPnt,localVec(3)];
+                    else
+                        imageObs(end+1) = ImagePoint(obj,points(i),[img_x,img_y]);
+                        rangeToPnt = [rangeToPnt,localVec(3)];
+                    end
                 end
-                
-                img_x(i) = round((-c*localVec(1)/localVec(3))/obj.camera.pixelSize)*obj.camera.pixelSize;
-                img_y(i) = round((-c*localVec(2)/localVec(3))/obj.camera.pixelSize)*obj.camera.pixelSize;
-                
             end
             
-            key1 = abs(img_x) < obj.camera.sensorSize(1)/2;
-            key2 = abs(img_y) < obj.camera.sensorSize(2)/2;
+            FinalImageObs = obj.deleteNonUniqueImageCoords(imageObs);
+        end
+        
+        function FinalImagePoints = deleteNonUniqueImageCoords(obj, imageObs)
+            pnts = zeros(size(imageObs,2),2);
+            rangeToPnt = zeros(length(imageObs),1);
             
-            imagePoints = deleteRowKey([img_x, img_y], key1.*key2.*key3);
+            M = rotz(obj.direction(3))*roty(obj.direction(2))*rotx(obj.direction(1));
+            X_0 = obj.location(1);
+            Y_0 = obj.location(2);
+            Z_0 = obj.location(3);
+            
+            for i = 1:length(imageObs)
+                X = imageObs(i).point.xyz(1);
+                Y = imageObs(i).point.xyz(2);
+                Z = imageObs(i).point.xyz(3);
+                
+                localVec = M*[X-X_0;Y-Y_0;Z-Z_0];
+                
+                rangeToPnt(i) = abs(localVec(3));
+            end
+            
+            
+            for i = 1:size(imageObs,2)
+                pnts(i,:) = imageObs(i).coords;
+            end
+            
+            roundedPnts = round(pnts/obj.camera.pixelSize);
+            rPntsIndex = [roundedPnts, (1:size(roundedPnts,1))'];
+            
+            testPoints = sortrows(rPntsIndex);
+            indexes = [];
+            
+            for i = 2:length(roundedPnts)
+                if (testPoints(i-1,1) == testPoints(i,1))&(testPoints(i-1,2) == testPoints(i,2))
+                    indexes = [indexes;testPoints(i-1,3),testPoints(i,3)];
+                end
+            end
+            
+            indexesToSkip = [];
+            for i = 1:size(indexes,1)
+                if strcmp(imageObs(indexes(i,1)).point.planeName, imageObs(indexes(i,2)).point.planeName) & ~isempty(imageObs(indexes(i,1)).point.planeName)
+                    % Take the index with the name that comes first,
+                    % alphabetically 
+                    multi = (2^length(imageObs(indexes(i,1)).point.planeName))./(2.^[1:length(imageObs(indexes(i,1)).point.planeName)]);
+                    vals1 = (imageObs(indexes(i,1)).point.planeName > imageObs(indexes(i,2)).point.planeName).*multi;
+                    vals2 = (imageObs(indexes(i,1)).point.planeName < imageObs(indexes(i,2)).point.planeName).*multi;
+                    
+                    sum1 = sum(vals1);
+                    sum2 = sum(vals2);
+                    
+                    if sum1 > sum2
+                        indexesToSkip = [indexesToSkip,indexes(i,2)];
+                    else
+                        indexesToSkip = [indexesToSkip,indexes(i,1)];
+                    end
+
+                else
+                    % Take the index with the lower range to the camera
+                    if rangeToPnt(indexes(i,1)) > rangeToPnt(indexes(i,2)) 
+                        indexesToSkip = [indexesToSkip,indexes(i,1)];
+                    else
+                        indexesToSkip = [indexesToSkip,indexes(i,2)];
+                    end
+                end
+            end
+            
+            flag = 1;
+            if isempty(indexesToSkip)
+                FinalImagePoints = imageObs;
+            else
+                FinalImagePoints = ImagePoint();
+                for i = 1:length(imageObs)
+                    copy = 1;
+                    for j = 1:length(indexesToSkip)
+                        if i == indexesToSkip(j)
+                            copy = 0;
+                        end
+                    end
+                    
+                    if copy == 1
+                        if flag == 1
+                            FinalImagePoints = imageObs(i);
+                            flag = 0;
+                        else
+                            FinalImagePoints(end+1) = imageObs(i);
+                        end
+                    end
+                    
+                end
+            end
+            
             
         end
     end
