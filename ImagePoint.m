@@ -2,17 +2,17 @@ classdef ImagePoint
     properties
         cameraName
         imageName
-        pointName
+        point
         coordinates
         
     end
     methods
-        function obj = ImagePoint(img, pnt,x,y)
+        function obj = ImagePoint(img, pnt,imgCoords)
             if nargin > 0
                 obj.imageName = img.ImageID;
                 obj.cameraName = img.camera.cameraID;
-                obj.pointName = pnt.pointName;
-                obj.coordinates  = [x,y];
+                obj.point = pnt;
+                obj.coords  = imgCoords;
                 
             end
         end
