@@ -32,7 +32,7 @@ classdef ImageClass
             end
             hold on
             loc = obj.location;
-            M =0.05* rotz(obj.direction(3))*roty(pi+obj.direction(2))*rotx(obj.direction(1));
+            M =0.05* rotz(obj.direction(3))*roty(obj.direction(2))*rotx(obj.direction(1));
             
             quiver3(loc(1),loc(2),loc(3),M(1,1),M(1,2),M(1,3),0,'r')
             quiver3(loc(1),loc(2),loc(3),M(2,1),M(2,2),M(2,3),0,'g')
@@ -41,10 +41,10 @@ classdef ImageClass
             
             LOC = repmat(loc,4,1);
             width = obj.camera.sensorSize/2;
-            CORNERS = (1/24)*[width(1),width(2),obj.camera.principleDistance;
-                -width(1),width(2),obj.camera.principleDistance;
-                -width(1),-width(2),obj.camera.principleDistance;
-                width(1),-width(2),obj.camera.principleDistance;]*M;
+            CORNERS = (1/24)*[width(1),width(2),-obj.camera.principleDistance;
+                -width(1),width(2),-obj.camera.principleDistance;
+                -width(1),-width(2),-obj.camera.principleDistance;
+                width(1),-width(2),-obj.camera.principleDistance;]*M;
             
             quiver3(LOC(:,1),LOC(:,2),LOC(:,3),CORNERS(:,1),CORNERS(:,2),CORNERS(:,3),0,'k')
             plot3(loc(1),loc(2),loc(3),'.k')
@@ -78,7 +78,7 @@ classdef ImageClass
                 Z = points(i).xyz(3);
                 localVec = M*[X-X_0;Y-Y_0;Z-Z_0];
                 
-                if localVec(3) < 0
+                if localVec(3) > 0
                     key3(i) = 0;
                 end
                 
