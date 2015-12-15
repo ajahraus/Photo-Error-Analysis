@@ -119,7 +119,7 @@ classdef Plane
             points_class = Point(size(points,1));
             
             for i = 1:size(points,1)
-                points_class(i) = Point(points(i,:));
+                points_class(i) = Point(points(i,:),obj);
             end
             
             
