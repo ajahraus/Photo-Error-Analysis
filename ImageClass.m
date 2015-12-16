@@ -68,9 +68,9 @@ classdef ImageClass
             Y_0 = obj.location(2);
             Z_0 = obj.location(3);
             
-
+            
             imageObs = ImagePoint();
-            rangeToPnt = [];
+            
             flag = 1;
             for i = 1:length(points)
                 X = points(i).xyz(1);
@@ -85,10 +85,8 @@ classdef ImageClass
                     if flag == 1
                         flag = 0;
                         imageObs = ImagePoint(obj,points(i),[img_x,img_y]);
-                        rangeToPnt = [rangeToPnt,localVec(3)];
                     else
                         imageObs(end+1) = ImagePoint(obj,points(i),[img_x,img_y]);
-                        rangeToPnt = [rangeToPnt,localVec(3)];
                     end
                 end
             end
@@ -105,59 +103,63 @@ classdef ImageClass
             Y_0 = obj.location(2);
             Z_0 = obj.location(3);
             
-            for i = 1:length(imageObs)
-                X = imageObs(i).point.xyz(1);
-                Y = imageObs(i).point.xyz(2);
-                Z = imageObs(i).point.xyz(3);
-                
-                localVec = M*[X-X_0;Y-Y_0;Z-Z_0];
-                
-                rangeToPnt(i) = abs(localVec(3));
-            end
-            
-            
-            for i = 1:size(imageObs,2)
-                pnts(i,:) = imageObs(i).coords;
-            end
-            
-            roundedPnts = round(pnts/obj.camera.pixelSize);
-            rPntsIndex = [roundedPnts, (1:size(roundedPnts,1))'];
-            
-            testPoints = sortrows(rPntsIndex);
-            indexes = [];
-            
-            for i = 2:length(roundedPnts)
-                if (testPoints(i-1,1) == testPoints(i,1))&(testPoints(i-1,2) == testPoints(i,2))
-                    indexes = [indexes;testPoints(i-1,3),testPoints(i,3)];
+            if ~isempty(imageObs(1).imageName)
+                for i = 1:length(imageObs)
+                    X = imageObs(i).point.xyz(1);
+                    Y = imageObs(i).point.xyz(2);
+                    Z = imageObs(i).point.xyz(3);
+                    
+                    localVec = M*[X-X_0;Y-Y_0;Z-Z_0];
+                    
+                    rangeToPnt(i) = abs(localVec(3));
                 end
-            end
-            
-            indexesToSkip = [];
-            for i = 1:size(indexes,1)
-                if strcmp(imageObs(indexes(i,1)).point.planeName, imageObs(indexes(i,2)).point.planeName) & ~isempty(imageObs(indexes(i,1)).point.planeName)
-                    % Take the index with the name that comes first,
-                    % alphabetically 
-                    multi = (2^length(imageObs(indexes(i,1)).point.planeName))./(2.^[1:length(imageObs(indexes(i,1)).point.planeName)]);
-                    vals1 = (imageObs(indexes(i,1)).point.planeName > imageObs(indexes(i,2)).point.planeName).*multi;
-                    vals2 = (imageObs(indexes(i,1)).point.planeName < imageObs(indexes(i,2)).point.planeName).*multi;
-                    
-                    sum1 = sum(vals1);
-                    sum2 = sum(vals2);
-                    
-                    if sum1 > sum2
-                        indexesToSkip = [indexesToSkip,indexes(i,2)];
-                    else
-                        indexesToSkip = [indexesToSkip,indexes(i,1)];
-                    end
-
-                else
-                    % Take the index with the lower range to the camera
-                    if rangeToPnt(indexes(i,1)) > rangeToPnt(indexes(i,2)) 
-                        indexesToSkip = [indexesToSkip,indexes(i,1)];
-                    else
-                        indexesToSkip = [indexesToSkip,indexes(i,2)];
+                
+                
+                for i = 1:size(imageObs,2)
+                    pnts(i,:) = imageObs(i).coords;
+                end
+                
+                roundedPnts = round(pnts/obj.camera.pixelSize);
+                rPntsIndex = [roundedPnts, (1:size(roundedPnts,1))'];
+                
+                testPoints = sortrows(rPntsIndex);
+                indexes = [];
+                
+                for i = 2:length(roundedPnts)
+                    if (testPoints(i-1,1) == testPoints(i,1))&(testPoints(i-1,2) == testPoints(i,2))
+                        indexes = [indexes;testPoints(i-1,3),testPoints(i,3)];
                     end
                 end
+                
+                indexesToSkip = [];
+                for i = 1:size(indexes,1)
+                    if strcmp(imageObs(indexes(i,1)).point.planeName, imageObs(indexes(i,2)).point.planeName) & ~isempty(imageObs(indexes(i,1)).point.planeName)
+                        % Take the index with the name that comes first,
+                        % alphabetically
+                        multi = (2^length(imageObs(indexes(i,1)).point.planeName))./(2.^[1:length(imageObs(indexes(i,1)).point.planeName)]);
+                        vals1 = (imageObs(indexes(i,1)).point.planeName > imageObs(indexes(i,2)).point.planeName).*multi;
+                        vals2 = (imageObs(indexes(i,1)).point.planeName < imageObs(indexes(i,2)).point.planeName).*multi;
+                        
+                        sum1 = sum(vals1);
+                        sum2 = sum(vals2);
+                        
+                        if sum1 > sum2
+                            indexesToSkip = [indexesToSkip,indexes(i,2)];
+                        else
+                            indexesToSkip = [indexesToSkip,indexes(i,1)];
+                        end
+                        
+                    else
+                        % Take the index with the lower range to the camera
+                        if rangeToPnt(indexes(i,1)) > rangeToPnt(indexes(i,2))
+                            indexesToSkip = [indexesToSkip,indexes(i,1)];
+                        else
+                            indexesToSkip = [indexesToSkip,indexes(i,2)];
+                        end
+                    end
+                end
+            else
+                indexesToSkip = [];
             end
             
             flag = 1;
