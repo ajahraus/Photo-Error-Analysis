@@ -103,7 +103,7 @@ classdef ImageClass
             Y_0 = obj.location(2);
             Z_0 = obj.location(3);
             
-            if ~isempty(imageObs(1).imageName)
+            if ~isempty(imageObs(1).image)
                 for i = 1:length(imageObs)
                     X = imageObs(i).point.xyz(1);
                     Y = imageObs(i).point.xyz(2);

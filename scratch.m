@@ -23,13 +23,16 @@ axis equal
 
 %%
 
-img_points1 = I(1).observePoints(points);
-img_points2 = I(2).observePoints(points);
-img_points3 = I(3).observePoints(points);
+img_points{1} = I(1).observePoints(points);
+img_points{2} = I(2).observePoints(points);
+img_points{3} = I(3).observePoints(points);
 
-img_points = [img_points1, img_points2, img_points3];
-
-figure, hold on
-for i = 1:length(img_points3)
-    plot(img_points3(i).coords(1,1),img_points3(i).coords(1,2),'.');
+% figure, hold on
+for i = 1:length(img_points)
+    colour = rand(3,1);
+    figure, hold on
+    for j = 1:length(img_points{i})
+        plot(img_points{i}(j).coords(1,1),img_points{i}(j).coords(1,2),'.','Color',colour);
+        axis equal
+    end
 end
