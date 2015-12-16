@@ -10,6 +10,9 @@ classdef Plane
     
     methods
         function obj = Plane(corners)
+            % The plane object is defined by the vertices, and the normal
+            % direction, distance to the origin, centroid, area are all
+            % calculated. A random name is also assigned. 
             if nargin > 0
                 obj.vertexs = corners;
                 L1 = obj.vertexs(2,:) - obj.vertexs(1,:);
@@ -81,14 +84,6 @@ classdef Plane
                 all_samples = [all_samples;new_samples];
             end
             
-            %             figure, hold on
-            % %             plot3([base(1),base(1)+len*dir(1)],[base(2),base(2)+len*dir(2)],[base(3),base(3)+len*dir(3)])
-            % %             plot3(linear_samples(:,1),linear_samples(:,2),linear_samples(:,3),'.r')
-            %             plot3(all_samples(:,1),all_samples(:,2),all_samples(:,3),'.k')
-            %             V = [vert;vert(1,:)];
-            %             plot3(V(:,1),V(:,2),V(:,3))
-            %             axis equal
-            
             v0 = repmat(vec1, size(all_samples,1),1);
             v1 = repmat(vec2, size(all_samples,1),1);
             v2 = all_samples - repmat(base, size(all_samples,1),1);
@@ -110,12 +105,6 @@ classdef Plane
             
             points = deleteRowKey(all_samples,key);
             
-            %             V = [vert;vert(1,:)];
-            %             figure,hold on
-            %             plot3(points(:,1),points(:,2),points(:,3),'r.')
-            %             plot3(V(:,1),V(:,2),V(:,3))
-            %             axis equal
-            %             title('all constraints')
             points_class = Point(size(points,1));
             
             for i = 1:size(points,1)
