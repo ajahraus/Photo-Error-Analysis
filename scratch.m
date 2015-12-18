@@ -6,19 +6,19 @@ clc
 
 %% 
 
-radInc =  [0: (360/60 *pi/180) : 2*pi]';
+radInc =  [0: (360/60 *pi/180) : 4*pi]';
 camX = cos(radInc)*6;
 camY = sin(radInc)*6;
 camZ = ones(size(camX));
 camPos = [camX, camY+3,camZ];
 
 for i = 1:length(radInc)
-    I(i) =  ImageClass(camPos(i,:),[90,90+180/pi*atan2(camY(i),camX(i)),0],Camera());
+    if i <= 61
+        I(i) =  ImageClass(camPos(i,:),[90,90+180/pi*atan2(camY(i),camX(i)),0],Camera());
+    else
+        I(i) =  ImageClass(camPos(i,:),[90,90+180/pi*atan2(camY(i),camX(i)),90],Camera());
+    end
 end
-
-% I(1) =  ImageClass([0,0,10],[0,0,0],Camera());
-% I(2) =  ImageClass([0,1,10],[0,15,90],Camera());
-
 
 planesModel = LoadPlanesFromFile('kuukpak planar model.txt');
 
@@ -43,10 +43,12 @@ end
 
 %%
 
-for i = 1:length(img_points)
+for i = 1:10:length(img_points)
     figure, hold on
     for j = 1:length(img_points{i})
-        plot(img_points{i}(j).coords(1),img_points{i}(j).coords(2),'.');
+        if ~isempty(img_points{i}(1).coords)
+            plot(img_points{i}(j).coords(1),img_points{i}(j).coords(2),'.');
+        end
     end
     axis equal
     title(['Image ', num2str(i)]);
