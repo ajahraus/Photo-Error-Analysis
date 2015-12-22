@@ -43,7 +43,7 @@ end
 
 %%
 
-for i = 1:10:length(img_points)
+for i = 1:20:length(img_points)
     figure, hold on
     for j = 1:length(img_points{i})
         if ~isempty(img_points{i}(1).coords)
