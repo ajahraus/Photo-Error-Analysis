@@ -126,7 +126,7 @@ classdef Plane
             for i = 1:lengthOfName
                 name(i) = setOfValidChars(randIndexs(i));
             end
-            name = ['Plane_',name];
+            name = ['Plane',name];
         end
     end
 end

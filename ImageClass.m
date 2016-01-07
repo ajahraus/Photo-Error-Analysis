@@ -202,7 +202,7 @@ classdef ImageClass
             for i = 1:lengthOfName
                 name(i) = setOfValidChars(randIndexs(i));
             end
-            name = ['Image_',name];
+            name = ['I',name];
         end
     end
 end

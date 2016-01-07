@@ -28,7 +28,7 @@ classdef Point
             for i = 1:lengthOfName
                 name(i) = setOfValidChars(randIndexs(i));
             end
-            name = ['Point_',name];
+            name = ['P',name];
         end
     end
 end
