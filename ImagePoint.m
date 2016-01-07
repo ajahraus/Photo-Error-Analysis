@@ -1,14 +1,15 @@
 classdef ImagePoint
     properties
-        image
         point
+        %         image
         coords
         
     end
     methods
-        function obj = ImagePoint(img, pnt,imgCoords)
+        %         function obj = ImagePoint(img, pnt,imgCoords)
+        function obj = ImagePoint(pnt, imgCoords)
             if nargin > 0
-                obj.image = img;
+                %                 obj.image = img;
                 obj.point = pnt;
                 obj.coords  = imgCoords;
                 

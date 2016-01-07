@@ -84,9 +84,9 @@ classdef ImageClass
                 if abs(img_x) < obj.camera.sensorSize(1)/2 & abs(img_y) < obj.camera.sensorSize(2)/2 & localVec(3)<0
                     if flag == 1
                         flag = 0;
-                        imageObs = ImagePoint(obj,points(i),[img_x,img_y]);
+                        imageObs = ImagePoint(points(i),[img_x,img_y]);
                     else
-                        imageObs(end+1) = ImagePoint(obj,points(i),[img_x,img_y]);
+                        imageObs(end+1) = ImagePoint(points(i),[img_x,img_y]);
                     end
                 end
             end
@@ -103,7 +103,7 @@ classdef ImageClass
             Y_0 = obj.location(2);
             Z_0 = obj.location(3);
             
-            if ~isempty(imageObs(1).image)
+            if ~isempty(imageObs(1).point)
                 for i = 1:length(imageObs)
                     X = imageObs(i).point.xyz(1);
                     Y = imageObs(i).point.xyz(2);
