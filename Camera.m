@@ -23,7 +23,7 @@ classdef Camera
             obj.sensorArrayPx = [4928,3264]; % pixels, in x then y
             obj.pixelSize = 0.00481; % mm, or 4.81 microns
             obj.sensorSize = obj.sensorArrayPx *obj.pixelSize; % mm
-            obj.cameraID = 'cam_99';
+            obj.cameraID = 'cam99';
             
         end
         

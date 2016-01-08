@@ -17,18 +17,44 @@ function createINPfile(filename,I,points)
             num2str(I(i).location),'    ',...
             num2str(I(i).direction*180/pi), '\n'];
         fprintf(fileID, outputString);
-        
+        if i == 1
+            fprintf(fileID,'0.00001 0.00001 0.00001 0.000001 0.000001 0.000001 \n');
+        else
+            fprintf(fileID,'\n');
+        end
     end
-    fprintf(fileID, '\n');
     
     % IOPs
     fprintf(fileID, 'INTERIOR \n');
     
     fprintf(fileID, [I(1).camera.cameraID,'  ', num2str(-1),  '\n']);
-    fprintf(fileID, [num2str(I(1).camera.principleDistance), ' 0 0 \n\n']);
+    fprintf(fileID, ['0 0 ', num2str(I(1).camera.principleDistance), '\n\n']);
+    
+    % Distance
+    fprintf(fileID, 'DISTANCE \n');
+    
+    point1idx = ceil(rand(1)*length(points));
+    for i = 1:length(points)
+        dist = sqrt( (points(i).xyz(1) - points(point1idx).xyz(1)).^2 ...
+            +(points(i).xyz(2) - points(point1idx).xyz(2)).^2 ...
+            +(points(i).xyz(3) - points(point1idx).xyz(3)).^2 );
+        if abs(dist-1) < 0.01;
+            point2idx = i;
+            break;
+        end
+        if i == length(points)
+            point1idx = ceil(rand(1)*length(points));
+            i = 1;
+        end
+    end
+    
+    outputString = [points(point1idx).pointName, ' ', points(point2idx).pointName,' ',...
+        num2str(dist), ' 0.0001 3\n'];
+    fprintf(fileID, outputString);
+    
 
     % Tie points
-    fprintf(fileID, 'CONTROL\n');
+    fprintf(fileID, 'TIE\n');
     
     
     for i = 1:length(points)

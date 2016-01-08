@@ -3,16 +3,16 @@ close all
 clear
 clc
 
-tic
 
 %%
+tic
 planesModel = LoadPlanesFromFile('kuukpak planar model.txt');
-points = samplePlanesMulti(planesModel, 5000);
+points = samplePlanesMulti(planesModel, 500);
 
-radInc = 360/30;
+radInc = 360/20;
 rads =  [0: radInc : 360-radInc]';
-camX = cosd(rads)*7;
-camY = sind(rads)*7;
+camX = cosd(rads)*12;
+camY = sind(rads)*12;
 camZ = ones(size(camX));
 camPos = [camX, camY+3,camZ+1];
 
@@ -47,12 +47,13 @@ end
 
 toc
 %%
+tic
 for i = 1:length(rads)
     I(i) =  ImageClass(camPos(i,:),angles(i,:),Camera());
 end
 toc
 %%
-
+tic
 
 for i = 1:length(I)
     I(i).imageData = I(i).observePoints(points);
@@ -60,7 +61,7 @@ end
 
 toc
 %%
-for i = 1:5:length(I)
+for i = 1:1:length(I)
     figure, hold on
     for j = 1:length(I(i).imageData)
         if ~isempty(I(i).imageData(1).coords)
@@ -71,4 +72,10 @@ for i = 1:5:length(I)
     title(['Image ', num2str(i)]);
 end
 
+toc
+
+%%
+tic
+createPHOfile('SimulationTwo.pho',I)
+createINPfile('SimulationTwo.inp',I,points)
 toc
