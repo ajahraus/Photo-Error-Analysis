@@ -74,6 +74,10 @@ toc
 % 
 % toc
 
+%% 
+tic
+I = reducePointObs(I,points);
+toc
 %%
 tic
 createPHOfile('SimulationTwo.pho',I)

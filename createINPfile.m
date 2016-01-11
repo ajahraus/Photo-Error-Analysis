@@ -18,7 +18,7 @@ function createINPfile(filename,I,points)
             num2str(I(i).direction*180/pi), '\n'];
         fprintf(fileID, outputString);
         if i == 1
-            fprintf(fileID,'0.00001 0.00001 0.00001 0.000001 0.000001 0.000001 \n');
+            fprintf(fileID,'0.0001 0.0001 0.0001 0.00001 0.00001 0.00001 \n');
         else
             fprintf(fileID,'\n');
         end
@@ -49,7 +49,7 @@ function createINPfile(filename,I,points)
     end
     
     outputString = [points(point1idx).pointName, ' ', points(point2idx).pointName,' ',...
-        num2str(dist), ' 0.00001 3\n'];
+        num2str(dist), ' 0.0001 3\n'];
     fprintf(fileID, outputString);
     
 
@@ -58,11 +58,12 @@ function createINPfile(filename,I,points)
     
     
     for i = 1:length(points)
-        outputString = [points(i).pointName, '   ', ...
-            num2str(points(i).xyz),'\n'];
-        fprintf(fileID, outputString);
+        if points(i).numObs > 2
+            outputString = [points(i).pointName, '   ', ...
+                num2str(points(i).xyz),'\n'];
+            fprintf(fileID, outputString);
+        end
     end
-    
     fprintf(fileID, '\n');
     
     fclose(fileID);
