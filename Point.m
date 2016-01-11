@@ -1,8 +1,9 @@
-classdef Point
+classdef Point < handle
     properties
         xyz
         pointName
         planeName
+        numObs
     end
     methods
         function obj = Point(varargin)
@@ -10,10 +11,12 @@ classdef Point
                 obj.xyz = varargin{1};
                 obj.pointName = obj.GenerateRandomPointName(10);
                 obj.planeName = varargin{2}.name;
+                obj.numObs = 0;
             elseif length(varargin) == 1
                 obj.xyz = varargin{1};
                 obj.pointName = obj.GenerateRandomPointName(10);
                 obj.planeName = '';
+                obj.numObs = 0;
             end
         end
     end

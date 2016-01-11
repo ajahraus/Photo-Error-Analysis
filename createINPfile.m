@@ -49,7 +49,7 @@ function createINPfile(filename,I,points)
     end
     
     outputString = [points(point1idx).pointName, ' ', points(point2idx).pointName,' ',...
-        num2str(dist), ' 0.0001 3\n'];
+        num2str(dist), ' 0.00001 3\n'];
     fprintf(fileID, outputString);
     
 

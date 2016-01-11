@@ -61,18 +61,18 @@ end
 
 toc
 %%
-for i = 1:1:length(I)
-    figure, hold on
-    for j = 1:length(I(i).imageData)
-        if ~isempty(I(i).imageData(1).coords)
-            plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
-        end
-    end
-    axis equal
-    title(['Image ', num2str(i)]);
-end
-
-toc
+% for i = 1:1:length(I)
+%     figure, hold on
+%     for j = 1:length(I(i).imageData)
+%         if ~isempty(I(i).imageData(1).coords)
+%             plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
+%         end
+%     end
+%     axis equal
+%     title(['Image ', num2str(i)]);
+% end
+% 
+% toc
 
 %%
 tic

@@ -85,8 +85,10 @@ classdef ImageClass
                     if flag == 1
                         flag = 0;
                         imageObs = ImagePoint(points(i),[img_x,img_y]);
+                        points(i).numObs = points(i).numObs  + 1;
                     else
                         imageObs(end+1) = ImagePoint(points(i),[img_x,img_y]);
+                        points(i).numObs = points(i).numObs  + 1;
                     end
                 end
             end
@@ -95,6 +97,7 @@ classdef ImageClass
         end
         
         function FinalImagePoints = deleteNonUniqueImageCoords(obj, imageObs)
+            % TODO: reduce number of observations in the points array
             pnts = zeros(size(imageObs,2),2);
             rangeToPnt = zeros(length(imageObs),1);
             
