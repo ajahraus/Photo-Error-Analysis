@@ -86,9 +86,11 @@ classdef ImageClass
                         flag = 0;
                         imageObs = ImagePoint(points(i),[img_x,img_y]);
                         points(i).numObs = points(i).numObs  + 1;
+                        points(i).imgNames = [points(i).imgNames; obj.ImageID];
                     else
                         imageObs(end+1) = ImagePoint(points(i),[img_x,img_y]);
                         points(i).numObs = points(i).numObs  + 1;
+                        points(i).imgNames = [points(i).imgNames; obj.ImageID];
                     end
                 end
             end
