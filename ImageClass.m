@@ -174,6 +174,14 @@ classdef ImageClass
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,2)).point.pointName)
                                     points(j).numObs = points(j).numObs - 1;
+                                    
+                                    for k = 1:size(points(j).imgNames,1)
+                                        if strcmp(points(j).imgNames(k,:), obj.ImageID)
+                                            points(j).imgNames(k,:) = [];
+                                            break;
+                                        end
+                                    end
+                                    
                                 end
                             end
                         else
@@ -181,6 +189,13 @@ classdef ImageClass
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,1)).point.pointName)
                                     points(j).numObs = points(j).numObs - 1;
+                                    
+                                    for k = 1:size(points(j).imgNames,1)
+                                        if strcmp(points(j).imgNames(k,:), obj.ImageID)
+                                            points(j).imgNames(k,:) = [];
+                                            break;
+                                        end
+                                    end
                                 end
                             end
                         end
@@ -192,6 +207,13 @@ classdef ImageClass
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,1)).point.pointName)
                                     points(j).numObs = points(j).numObs - 1;
+                                    
+                                    for k = 1:size(points(j).imgNames,1)
+                                        if strcmp(points(j).imgNames(k,:), obj.ImageID)
+                                            points(j).imgNames(k,:) = [];
+                                            break;
+                                        end
+                                    end
                                 end
                             end
                         else
@@ -199,6 +221,14 @@ classdef ImageClass
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,2)).point.pointName)
                                     points(j).numObs = points(j).numObs - 1;
+                                    
+                                    for k = 1:size(points(j).imgNames,1)
+                                        if strcmp(points(j).imgNames(k,:), obj.ImageID)
+                                            points(j).imgNames(k,:) = [];
+                                            break;
+                                        end
+                                    end
+                                    
                                 end
                             end
                         end
@@ -233,7 +263,12 @@ classdef ImageClass
                 end
             end
             
-            
+            for i = 1:length(points)
+                if points(i).numObs ~= size(points(i).imgNames,1)
+                    error(101,['Point number ', num2str(i),' has mismatched observation number, ImageIDs. ImageID: ',obj.ImageID]);
+                end
+            end
+        
         end
     end
     
