@@ -104,3 +104,5 @@ if j ~= size(non_duplicates,1)
         ,'actual number of points that appear in a single image']);
 end
 
+%%
+createFEMBUNfiles('smallTest2',I,points);

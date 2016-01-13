@@ -58,7 +58,7 @@ function createINPfile(filename,I,points)
     
     
     for i = 1:length(points)
-        if points(i).numObs > 2
+        if points(i).numObs > 1
             outputString = [points(i).pointName, '   ', ...
                 num2str(points(i).xyz),'\n'];
             fprintf(fileID, outputString);
