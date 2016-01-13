@@ -4,6 +4,8 @@ function I = reducePointObs(Images, points)
 % number is less than two, eliminate both that point from the list of
 % points, and from the image observations (if it exists)
 I = Images;
+c = I(1).camera.principleDistance;
+
 for i = 1:length(points)
     % save the current points' ID for quicker access later on
     currentPointID = points(i).pointName;
@@ -11,7 +13,7 @@ for i = 1:length(points)
         currentPointID = points(i).pointName;
         
         for ii = 1:length(I)
-            for j = 1:length(Images(ii).imageData)
+            for j = 1:length(I(ii).imageData)
                 if strcmp(currentPointID, I(ii).imageData(j).point.pointName)
                     I(ii).imageData(j) = [];
                     break;
