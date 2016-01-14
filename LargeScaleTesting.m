@@ -61,18 +61,19 @@ end
 
 toc
 %%
-% for i = 1:1:length(I)
-%     figure, hold on
-%     for j = 1:length(I(i).imageData)
-%         if ~isempty(I(i).imageData(1).coords)
-%             plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
-%         end
-%     end
-%     axis equal
-%     title(['Image ', num2str(i)]);
-% end
-% 
-% toc
+for i = 1:1:length(I)
+    figure, hold on
+    for j = 1:length(I(i).imageData)
+        if ~isempty(I(i).imageData(1).coords)
+            plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
+        end
+    end
+    set(gca,'xlim',[-I(1).camera.sensorSize(1)/2,I(1).camera.sensorSize(1)/2]);
+    set(gca,'ylim',[-I(1).camera.sensorSize(2)/2,I(1).camera.sensorSize(2)/2]);
+    title(['Image ', num2str(i)]);
+end
+
+toc
 
 %% 
 tic
@@ -80,6 +81,5 @@ I = reducePointObs(I,points);
 toc
 %%
 tic
-createPHOfile('SimulationTwo.pho',I)
-createINPfile('SimulationTwo.inp',I,points)
+createFEMBUNfiles('LargeTest',I,points);
 toc

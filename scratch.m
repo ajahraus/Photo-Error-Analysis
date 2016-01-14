@@ -5,20 +5,37 @@ clc
 
 
 %%
-% tic
-plane1 = Plane([0,0,0;2,0,0;0,1,0]);
-points = samplePlanesMulti(plane1, 50);
-newpoint = Point(points(round(length(points)/2)).xyz - [0,0,0.0001]);
-points = [points,newpoint];
+% Creating Points to be imaged
+% plane1 = Plane([0,0,0;2,0,0;0,1,0]);
+% points = samplePlanesMulti(plane1, 100);
+% newpoint = Point(points(round(length(points)/2)).xyz - [0,0,0.0001]);
+% points = [points,newpoint];
+radIncPoints=  360/30;
+horzAng = [0:radIncPoints:360-radIncPoints]';
+vertAng = [0:radIncPoints:90-radIncPoints]';
+pointsArray = [];
+for i = 1:length(vertAng)
+    xpoints = cosd(horzAng)*cosd(vertAng(i));
+    ypoints = sind(horzAng)*cosd(vertAng(i));
+    zpoints = repmat( sind(vertAng(i)), size(xpoints,1),1);
+    pointsArray = [pointsArray; xpoints, ypoints, zpoints];
+end
+pointsArray = [pointsArray; 0, 0, 1];
 
+points = Point();
+for i = 1:length(pointsArray)
+    points(i) = Point(pointsArray(i,:));
+end
+%%
+% Creating images
 radInc = 360/6;
 rads =  [0: radInc : 360-radInc]';
-camX = cosd(rads)*1.5;
-camY = sind(rads)*1.5;
+camX = cosd(rads)*2;
+camY = sind(rads)*2;
 camZ = ones(size(camX));
-camPos = [camX+1, camY+0.5,camZ+1];
+camPos = [camX, camY,camZ+1];
 
-fig = 0;
+fig = 1;
 if fig
     figure, hold on
     for i = 1:length(points)
@@ -29,7 +46,7 @@ end
 
 angles = zeros(size(rads,1),3);
 for i = 1:length(angles)
-    Zvec = [camX(i), camY(i), camZ(i)+3]';
+    Zvec = [camX(i), camY(i), camZ(i)+0.5]';
     Zvec = Zvec/ sqrt(sum(Zvec.^2));
     
     Xvec = [-Zvec(2), Zvec(1), 0]';
@@ -106,3 +123,18 @@ end
 
 %%
 createFEMBUNfiles('smallTest2',I,points);
+
+%%
+for i = 1:1:length(I)
+    figure, hold on
+    for j = 1:length(I(i).imageData)
+        if ~isempty(I(i).imageData(1).coords)
+            plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
+        end
+    end
+    set(gca,'xlim',[-I(1).camera.sensorSize(1)/2,I(1).camera.sensorSize(1)/2]);
+    set(gca,'ylim',[-I(1).camera.sensorSize(2)/2,I(1).camera.sensorSize(2)/2]);
+    title(['Image ', num2str(i)]);
+end
+
+fclose('all');

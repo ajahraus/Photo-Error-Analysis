@@ -20,9 +20,9 @@ for i = 1:length(points)
                 end
             end
         end
-    
-    % For each element in the poinst array, check if it has more than two
-    % observations. If it does, procede.
+        
+        % For each element in the poinst array, check if it has more than two
+        % observations. If it does, procede.
     elseif points(i).numObs >= 2
         % Pre-allocate memory for the cost and indexes of the image pairs
         listOfImagePairs = zeros(round((points(i).numObs * (points(i).numObs-1))/2),3);
@@ -118,7 +118,8 @@ for i = 1:length(points)
                 vec2 = I(imgIdx2).location - points(i).xyz;
                 vec2 = vec2/norm(vec2);
                 
-                cost = dot(vec1,vec2)^2 + sin(alpha)^2 + sin(beta)^2;
+%                 cost = dot(vec1,vec2)^2 + sin(alpha)^2 + sin(beta)^2;
+                cost = dot(vec1,vec2);
                 
                 % save the cost
                 listOfImagePairs(nextIndex,:) = [ cost, imgIdx1, imgIdx2];

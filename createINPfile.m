@@ -17,17 +17,17 @@ function createINPfile(filename,I,points)
             num2str(I(i).location),'    ',...
             num2str(I(i).direction*180/pi), '\n'];
         fprintf(fileID, outputString);
-        if i == 1
+%         if i == 1
             fprintf(fileID,'0.0001 0.0001 0.0001 0.00001 0.00001 0.00001 \n');
-        else
-            fprintf(fileID,'\n');
-        end
+%         else
+%             fprintf(fileID,'\n');
+%         end
     end
     
     % IOPs
     fprintf(fileID, 'INTERIOR \n');
     
-    fprintf(fileID, [I(1).camera.cameraID,'  ', num2str(-1),  '\n']);
+    fprintf(fileID, [I(1).camera.cameraID,' 1 \n']);
     fprintf(fileID, ['0 0 ', num2str(I(1).camera.principleDistance), '\n\n']);
     
     % Distance
@@ -38,10 +38,18 @@ function createINPfile(filename,I,points)
         dist = sqrt( (points(i).xyz(1) - points(point1idx).xyz(1)).^2 ...
             +(points(i).xyz(2) - points(point1idx).xyz(2)).^2 ...
             +(points(i).xyz(3) - points(point1idx).xyz(3)).^2 );
+        flag = 1;
         if abs(dist-1) < 0.01;
             point2idx = i;
+            flag = 0;
             break;
         end
+        
+        if flag == 1;
+            point1idx = ceil(rand(1)*length(points));
+            i = 1;
+        end
+        
         if i == length(points)
             point1idx = ceil(rand(1)*length(points));
             i = 1;
