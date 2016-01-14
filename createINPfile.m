@@ -17,11 +17,11 @@ function createINPfile(filename,I,points)
             num2str(I(i).location),'    ',...
             num2str(I(i).direction*180/pi), '\n'];
         fprintf(fileID, outputString);
-%         if i == 1
+        if i == 1
             fprintf(fileID,'0.0001 0.0001 0.0001 0.00001 0.00001 0.00001 \n');
-%         else
-%             fprintf(fileID,'\n');
-%         end
+        else
+            fprintf(fileID,'\n');
+        end
     end
     
     % IOPs
