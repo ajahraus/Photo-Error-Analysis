@@ -81,5 +81,5 @@ I = reducePointObs(I,points);
 toc
 %%
 tic
-createFEMBUNfiles('LargeTest',I,points);
+createFEMBUNfilesFN('LargeTest2',I,points);
 toc
