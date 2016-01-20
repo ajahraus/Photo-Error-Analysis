@@ -139,7 +139,7 @@ classdef ImageClass
                 indexes = [];
                 
                 % loading indexes of points that match their previous row
-                % into vector of indexes 
+                % into vector of indexes
                 for i = 2:length(roundedPnts)
                     if (testPoints(i-1,1) == testPoints(i,1))&(testPoints(i-1,2) == testPoints(i,2))
                         indexes = [indexes;testPoints(i-1,3),testPoints(i,3)];
@@ -151,7 +151,7 @@ classdef ImageClass
                 % the point with the id that comes first alphatetically
                 % should be used (to maximize redundancy). Otherwise, the
                 % point that is located closer to the camera should be
-                % used. 
+                % used.
                 indexesToSkip = [];
                 for i = 1:size(indexes,1)
                     if strcmp(imageObs(indexes(i,1)).point.planeName, imageObs(indexes(i,2)).point.planeName) & ~isempty(imageObs(indexes(i,1)).point.planeName)
@@ -170,7 +170,7 @@ classdef ImageClass
                             % check all points in the points array. The one
                             % which has a matching name to the point in the
                             % imageObs class has its observation number
-                            % reduced by one. 
+                            % reduced by one.
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,2)).point.pointName)
                                     points(j).numObs = points(j).numObs - 1;
@@ -181,7 +181,6 @@ classdef ImageClass
                                             break;
                                         end
                                     end
-                                    
                                 end
                             end
                         else
@@ -199,7 +198,6 @@ classdef ImageClass
                                 end
                             end
                         end
-                        
                     else
                         % Take the index with the lower range to the camera
                         if rangeToPnt(indexes(i,1)) > rangeToPnt(indexes(i,2))
@@ -228,7 +226,6 @@ classdef ImageClass
                                             break;
                                         end
                                     end
-                                    
                                 end
                             end
                         end
@@ -259,16 +256,14 @@ classdef ImageClass
                             FinalImagePoints(end+1) = imageObs(i);
                         end
                     end
-                    
                 end
             end
             
             for i = 1:length(points)
                 if points(i).numObs ~= size(points(i).imgNames,1)
-                    error(101,['Point number ', num2str(i),' has mismatched observation number, ImageIDs. ImageID: ',obj.ImageID]);
+                    error(['Point number ', num2str(i),' has mismatched observation number, ImageIDs. ImageID: ',obj.ImageID]);
                 end
             end
-        
         end
     end
     
