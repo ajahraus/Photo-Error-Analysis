@@ -1,3 +1,5 @@
 % Post FEMBUN file analysis
-b = readVarianceFromFEBMUNoutput('LargeTest2');
+clc
+
+[a,b] = readVarianceFromFEBMUNoutput('LargeTest2');
 
