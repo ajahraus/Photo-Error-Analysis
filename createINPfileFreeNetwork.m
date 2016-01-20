@@ -31,26 +31,19 @@ function createINPfileFreeNetwork(filename,I,points)
     % Distance
     fprintf(fileID, 'DISTANCE \n');
     
-    point1idx = ceil(rand(1)*length(points));
-    for i = 1:length(points)
-        dist = sqrt( (points(i).xyz(1) - points(point1idx).xyz(1)).^2 ...
-            +(points(i).xyz(2) - points(point1idx).xyz(2)).^2 ...
-            +(points(i).xyz(3) - points(point1idx).xyz(3)).^2 );
-        flag = 1;
-        if abs(dist-1) < 0.01;
-            point2idx = i;
-            flag = 0;
-            break;
-        end
+    while(~exist('point2idx','var'))
         
-        if flag == 1;
-            point1idx = ceil(rand(1)*length(points));
-            i = 1;
-        end
-        
-        if i == length(points)
-            point1idx = ceil(rand(1)*length(points));
-            i = 1;
+        point1idx = ceil(rand(1)*length(points));
+        for i = 1:length(points)
+            dist = sqrt( (points(i).xyz(1) - points(point1idx).xyz(1)).^2 ...
+                +(points(i).xyz(2) - points(point1idx).xyz(2)).^2 ...
+                +(points(i).xyz(3) - points(point1idx).xyz(3)).^2 );
+            flag = 1;
+            if abs(dist-1) < 0.1;
+                point2idx = i;
+                flag = 0;
+                break;
+            end
         end
     end
     
