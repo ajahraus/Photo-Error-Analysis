@@ -1,5 +1,5 @@
 function createFEMBUNfilesFN(filename, images, points)
-    createINPfileFreeNetwork([filename,'.inp'],images,points);
-    createPHOfile([filename,'.pho'],images);
-    createCFGfile([filename,'.cfg'])
+    createINPfileFreeNetwork(['C:\\FEMBUN2016\\',filename,'.inp'],images,points);
+    createPHOfile(['C:\\FEMBUN2016\\',filename,'.pho'],images);
+    createCFGfile(['C:\\FEMBUN2016\\',filename,'.cfg'])
 end

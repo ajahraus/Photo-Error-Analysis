@@ -173,11 +173,11 @@ classdef ImageClass
                             % reduced by one.
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,2)).point.pointName)
-                                    points(j).numObs = points(j).numObs - 1;
                                     
                                     for k = 1:size(points(j).imgNames,1)
                                         if strcmp(points(j).imgNames(k,:), obj.ImageID)
                                             points(j).imgNames(k,:) = [];
+                                            points(j).numObs = points(j).numObs - 1;
                                             break;
                                         end
                                     end
@@ -187,11 +187,11 @@ classdef ImageClass
                             indexesToSkip = [indexesToSkip,indexes(i,1)];
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,1)).point.pointName)
-                                    points(j).numObs = points(j).numObs - 1;
                                     
                                     for k = 1:size(points(j).imgNames,1)
                                         if strcmp(points(j).imgNames(k,:), obj.ImageID)
                                             points(j).imgNames(k,:) = [];
+                                            points(j).numObs = points(j).numObs - 1;
                                             break;
                                         end
                                     end
@@ -204,11 +204,11 @@ classdef ImageClass
                             indexesToSkip = [indexesToSkip,indexes(i,1)];
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,1)).point.pointName)
-                                    points(j).numObs = points(j).numObs - 1;
                                     
                                     for k = 1:size(points(j).imgNames,1)
                                         if strcmp(points(j).imgNames(k,:), obj.ImageID)
                                             points(j).imgNames(k,:) = [];
+                                            points(j).numObs = points(j).numObs - 1;
                                             break;
                                         end
                                     end
@@ -218,11 +218,11 @@ classdef ImageClass
                             indexesToSkip = [indexesToSkip,indexes(i,2)];
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,2)).point.pointName)
-                                    points(j).numObs = points(j).numObs - 1;
                                     
                                     for k = 1:size(points(j).imgNames,1)
                                         if strcmp(points(j).imgNames(k,:), obj.ImageID)
                                             points(j).imgNames(k,:) = [];
+                                            points(j).numObs = points(j).numObs - 1;
                                             break;
                                         end
                                     end

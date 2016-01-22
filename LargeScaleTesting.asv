@@ -83,6 +83,5 @@ toc
 tic
 createFEMBUNfilesFN('LargeTest2',I,points);
 toc
-fclose('all');
 %%
 % fid = readVarianceFromFEBMUNoutput('LargeTest2');
