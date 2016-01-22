@@ -1,5 +1,5 @@
 function createFEMBUNfiles(filename, images, points)
-    createINPfile([filename,'.inp'],images,points);
-    createPHOfile([filename,'.pho'],images);
-    createCFGfile([filename,'.cfg'])
+    createINPfile(['C:\\FEMBUN2016\\',filename,'.inp'],images,points);
+    createPHOfile(['C:\\FEMBUN2016\\',filename,'.pho'],images);
+    createCFGfile(['C:\\FEMBUN2016\\',filename,'.cfg'])
 end

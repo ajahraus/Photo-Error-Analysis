@@ -61,17 +61,17 @@ end
 
 toc
 %%
-% for i = 1:1:length(I)
-%     figure, hold on
-%     for j = 1:length(I(i).imageData)
-%         if ~isempty(I(i).imageData(1).coords)
-%             plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
-%         end
-%     end
-%     set(gca,'xlim',[-I(1).camera.sensorSize(1)/2,I(1).camera.sensorSize(1)/2]);
-%     set(gca,'ylim',[-I(1).camera.sensorSize(2)/2,I(1).camera.sensorSize(2)/2]);
-%     title(['Image ', num2str(i)]);
-% end
+for i = 1:10:length(I)
+    figure, hold on
+    for j = 1:length(I(i).imageData)
+        if ~isempty(I(i).imageData(1).coords)
+            plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
+        end
+    end
+    set(gca,'xlim',[-I(1).camera.sensorSize(1)/2,I(1).camera.sensorSize(1)/2]);
+    set(gca,'ylim',[-I(1).camera.sensorSize(2)/2,I(1).camera.sensorSize(2)/2]);
+    title(['Image ', num2str(i)]);
+end
 
 % toc
 
@@ -82,6 +82,9 @@ toc
 %%
 tic
 createFEMBUNfilesFN('LargeTest2',I,points);
+
+createFEMBUNfiles('LargeTest1',I,points);
+
 toc
 fclose('all');
 %%
