@@ -1,28 +1,57 @@
 % Post FEMBUN file analysis
 clc
 
-[a,b] = readVarianceFromFEBMUNoutput('LargeTest2');
+[fixedPointNames,fixedStds] = readVarianceFromFEBMUNoutput('LargeTest1');
+[freePointNames,freeStds] = readVarianceFromFEBMUNoutput('LargeTest1');
 
-pointNameArray = '1234567890a';
-pointNameArray = repmat(pointNameArray,length(points),1);
 
-for i = 1:length(points)
-    pointNameArray(i,:) = points(i).pointName;
-end
-
-% I need to go through the list of points, and assign the variance from the
-% FEMBUN file to those points based on the matching ID. Then I can output
-% the 4xn matrix as a pts file. I'll have to do the same thing for the TLS
-% data as well, then I can import them both into cloudcompare and use that
-% software to scale and display the colour appropriately. 
 %%
 
-for i = 1:length(a)
+for i = 1:length(fixedPointNames)
     for  j = 1:length(points)
-        if strcmp(a(i,:), pointNameArray(j,:))
-            points(j).stdev = b(i);
+        if strcmp(fixedPointNames(i,:), points(j).pointName)
+            points(j).stdFixed = fixedStds(i);
             break;
         end
-        
     end
 end
+
+for i = 1:length(freePointNames)
+    for  j = 1:length(points)
+        if strcmp(freePointNames(i,:), points(j).pointName)
+            points(j).stdFN = freeStds(i);
+            break;
+        end
+    end
+end
+
+
+%% Output pts file (Fixed)
+
+fid = fopen('PhotoPointCloudFixed.pts','w');
+
+fprintf(fid, num2str(length(points)));
+fprintf(fid, '\n');
+for i =  1:length(points)
+    outputString = [num2str(points(i).xyz(1)),', ',num2str(points(i).xyz(2)),...
+        ', ',num2str(points(i).xyz(3)),', ',num2str(points(i).stdFixed),'\n'];
+    if points(i).stdFixed ~= 0;
+        fprintf(fid,outputString);
+    end
+end
+fclose(fid);
+
+%% Output pts file (Free network)
+
+fid = fopen('PhotoPointCloudFree.pts','w');
+
+fprintf(fid, num2str(length(points)));
+fprintf(fid, '\n');
+for i =  1:length(points)
+    outputString = [num2str(points(i).xyz(1)),', ',num2str(points(i).xyz(2)),...
+        ', ',num2str(points(i).xyz(3)),', ',num2str(points(i).stdFN),'\n'];
+    if points(i).stdFN ~= 0;
+        fprintf(fid,outputString);
+    end
+end
+fclose(fid);

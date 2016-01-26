@@ -5,7 +5,9 @@ classdef Point < handle
         planeName
         numObs
         imgNames
-        stdev
+        stdFN
+        stdFixed
+        
     end
     methods
         function obj = Point(varargin)
