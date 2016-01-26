@@ -1,5 +1,5 @@
 % Photogrammetry Script
-close all
+% close all
 clear
 clc
 
@@ -16,7 +16,7 @@ camY = sind(rads)*12;
 camZ = ones(size(camX));
 camPos = [camX, camY+3,camZ+1];
 
-fig = 1;
+fig = 0;
 if fig
     figure, hold on
     for i = 1:length(points)
@@ -61,21 +61,22 @@ end
 
 toc
 %%
-for i = 1:10:length(I)
-    figure, hold on
-    for j = 1:length(I(i).imageData)
-        if ~isempty(I(i).imageData(1).coords)
-            plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
+if 0
+    for i = 1:10:length(I)
+        figure, hold on
+        for j = 1:length(I(i).imageData)
+            if ~isempty(I(i).imageData(1).coords)
+                plot(I(i).imageData(j).coords(1),I(i).imageData(j).coords(2),'.');
+            end
         end
+        set(gca,'xlim',[-I(1).camera.sensorSize(1)/2,I(1).camera.sensorSize(1)/2]);
+        set(gca,'ylim',[-I(1).camera.sensorSize(2)/2,I(1).camera.sensorSize(2)/2]);
+        title(['Image ', num2str(i)]);
     end
-    set(gca,'xlim',[-I(1).camera.sensorSize(1)/2,I(1).camera.sensorSize(1)/2]);
-    set(gca,'ylim',[-I(1).camera.sensorSize(2)/2,I(1).camera.sensorSize(2)/2]);
-    title(['Image ', num2str(i)]);
 end
-
 % toc
 
-%% 
+%%
 tic
 I = reducePointObs(I,points);
 toc
