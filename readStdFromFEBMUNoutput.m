@@ -1,4 +1,4 @@
-function [points, stdev] = readVarianceFromFEBMUNoutput(filename)
+function [points, stdev] = readStdFromFEBMUNoutput(filename)
 fid = fopen(['C://FEMBUN2016//',filename,'.out']);
 rawFile = fscanf(fid,'%s');
 startPoint = 0;
