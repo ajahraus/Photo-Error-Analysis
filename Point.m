@@ -17,14 +17,16 @@ classdef Point < handle
                 obj.planeName = varargin{2}.name;
                 obj.numObs = 0;
                 obj.imgNames = [];
-                obj.stdev = 0;
+                obj.stdFN = 0;
+                obj.stdFixed = 0;
             elseif length(varargin) == 1
                 obj.xyz = varargin{1};
                 obj.pointName = obj.GenerateRandomPointName(10);
                 obj.planeName = '';
                 obj.numObs = 0;
                 obj.imgNames = [];
-                obj.stdev = 0;
+                obj.stdFN = 0;
+                obj.stdFixed = 0;
             end
         end
     end
