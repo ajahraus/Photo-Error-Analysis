@@ -50,7 +50,7 @@ while(~exist('point2idx','var'))
 end
 
 outputString = [points(point1idx).pointName, ' ', points(point2idx).pointName,' ',...
-    num2str(dist), ' 0.0001 3\n'];
+    num2str(dist), ' 0.001 3\n'];
 fprintf(fileID, outputString);
 
 
