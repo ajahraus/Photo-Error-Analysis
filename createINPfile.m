@@ -18,7 +18,7 @@ for i = 1:length(I)
         num2str(I(i).direction*180/pi), '\n'];
     fprintf(fileID, outputString);
     if i == 1
-        fprintf(fileID,'0.0001 0.0001 0.0001 0.00001 0.00001 0.00001 \n');
+        fprintf(fileID,'0.001 0.001 0.001 0.0001 0.0001 0.0001 \n');
     else
         fprintf(fileID,'\n');
     end
