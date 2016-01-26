@@ -34,10 +34,9 @@ end
 
 %% Output pts file (Fixed)
 
-fid = fopen('PhotoPointCloudFixed.pts','w');
+% fid = fopen('PhotoPointCloudFixed.pts','w');
+ fid = fopen('PhotoPointCloud.pts','w');
 
-fprintf(fid, num2str(length(points)));
-fprintf(fid, '\n');
 for i =  1:length(points)
     outputString = [num2str(points(i).xyz(1)),', ',num2str(points(i).xyz(2)),...
         ', ',num2str(points(i).xyz(3)),', ',num2str(points(i).stdFixed),'\n'];
@@ -45,16 +44,14 @@ for i =  1:length(points)
         fprintf(fid,outputString);
     end
 end
-fclose(fid);
+% fclose(fid);
 
 %% Output pts file (Free network)
 
-fid = fopen('PhotoPointCloudFree.pts','w');
+% fid = fopen('PhotoPointCloudFree.pts','w');
 
-fprintf(fid, num2str(length(points)));
-fprintf(fid, '\n');
 for i =  1:length(points)
-    outputString = [num2str(points(i).xyz(1)),', ',num2str(points(i).xyz(2)),...
+    outputString = [num2str(points(i).xyz(1)+15),', ',num2str(points(i).xyz(2)),...
         ', ',num2str(points(i).xyz(3)),', ',num2str(points(i).stdFN),'\n'];
     if points(i).stdFN ~= 0;
         fprintf(fid,outputString);
