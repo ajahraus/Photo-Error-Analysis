@@ -118,8 +118,18 @@ for i = 1:length(points)
                 vec2 = I(imgIdx2).location - points(i).xyz;
                 vec2 = vec2/norm(vec2);
                 
-%                 cost = dot(vec1,vec2)^2 + sin(alpha)^2 + sin(beta)^2;
-                cost = dot(vec1,vec2);
+                imgSeparation = I(imgIdx2).location - I(imgIdx1).location;
+                
+                a = imgSeparation * dot((points(i).xyz - I(imgIdx1).location ),(imgSeparation));
+                b = (points(i).xyz - I(imgIdx1).location) - a;
+                
+                c = imgSeparation - a;
+                
+                alpha = atan2(norm(a),norm(b));
+                beta = atan2(norm(c),norm(b));
+                
+                cost = dot(vec1,vec2)^2 + sin(alpha-beta)^2;
+%                 cost = dot(vec1,vec2);
                 
                 % save the cost
                 listOfImagePairs(nextIndex,:) = [ cost, imgIdx1, imgIdx2];
