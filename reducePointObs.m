@@ -120,13 +120,13 @@ for i = 1:length(points)
                 
                 imgSeparation = I(imgIdx2).location - I(imgIdx1).location;
                 
-                a = imgSeparation * dot((points(i).xyz - I(imgIdx1).location ),(imgSeparation));
-                b = (points(i).xyz - I(imgIdx1).location) - a;
+                a_1 = imgSeparation * dot((points(i).xyz - I(imgIdx1).location ),(imgSeparation));
+                b_1 = (points(i).xyz - I(imgIdx1).location) - a_1;
                 
-                c = imgSeparation - a;
+                c_1 = imgSeparation - a_1;
                 
-                alpha = atan2(norm(a),norm(b));
-                beta = atan2(norm(c),norm(b));
+                alpha = atan2(norm(a_1),norm(b_1));
+                beta = atan2(norm(c_1),norm(b_1));
                 
                 cost = dot(vec1,vec2)^2 + sin(alpha-beta)^2;
 %                 cost = dot(vec1,vec2);
