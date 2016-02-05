@@ -3,11 +3,10 @@
 clear
 clc
 
-
 %%
 tic
 planesModel = LoadPlanesFromFile('kuukpak planar model.txt');
-points = samplePlanesMulti(planesModel, 1000);
+points = samplePlanesMulti(planesModel, 5000);
 
 radInc = 360/20;
 rads =  [0: radInc : 360-radInc]';
@@ -83,8 +82,8 @@ toc
 %%
 tic
 
-createFEMBUNfiles('LargeTest1',I,points);
-createFEMBUNfilesFN('LargeTest2',I,points);
+% createFEMBUNfiles('LargeTest1',I,points);
+createFEMBUNfilesFN('LargeTest5000n',I,points);
 
 toc
 fclose('all');
