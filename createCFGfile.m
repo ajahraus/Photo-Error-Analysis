@@ -4,8 +4,8 @@ fileID = fopen(filename,'w');
 
 fprintf(fileID, '; FEMBUN configuration file of default settings.\n');
 fprintf(fileID, '; Image coordinate observation default standard deviations.\n');
-fprintf(fileID, 'IMGX = 0.00962    ; x coordinate, two pixels (i.e. 1 pixel = 4.81 microns)\n');
-fprintf(fileID, 'IMGY = 0.00962   ; y coordinate, two pixels\n');
+fprintf(fileID, 'IMGX = 0.0016    ; x coordinate, pixel/3 (according to literature)\n');
+fprintf(fileID, 'IMGY = 0.0016   ; y coordinate, pixel/3\n');
 fprintf(fileID, ';\n');
 fprintf(fileID, ';  Default maximum number of iterations.\n');
 fprintf(fileID, ';\n');

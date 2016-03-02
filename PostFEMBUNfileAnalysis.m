@@ -2,7 +2,7 @@
 clc
 
 % [fixedPointNames,fixedStds] = readStdFromFEBMUNoutput('LargeTest1');
-[freePointNames,freeStds] = readStdFromFEBMUNoutput('LargeTest2');
+[freePointNames,freeStds] = readStdFromFEBMUNoutput('LargeTest2000n free net');
 %%
 % figure,
 % % subplot(1,2,1),

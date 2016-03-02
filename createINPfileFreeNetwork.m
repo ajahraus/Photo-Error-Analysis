@@ -31,26 +31,27 @@ fprintf(fileID, ['0 0 ', num2str(I(1).camera.principleDistance), '\n\n']);
 % Distance
 fprintf(fileID, 'DISTANCE \n');
 
-while(~exist('point2idx','var'))
+for j = 1:4
+    goal_dist = (60-(j*10))/100;
     
     point1idx = ceil(rand(1)*length(points));
+    dist = ones(size(points))*1000;
     for i = 1:length(points)
-        dist = sqrt( (points(i).xyz(1) - points(point1idx).xyz(1)).^2 ...
-            +(points(i).xyz(2) - points(point1idx).xyz(2)).^2 ...
-            +(points(i).xyz(3) - points(point1idx).xyz(3)).^2 );
-        flag = 1;
-        if abs(dist-1) < 0.1;
-            point2idx = i;
-            flag = 0;
-            break;
+        if i ~= point1idx
+            dist(i) = sqrt( (points(i).xyz(1) - points(point1idx).xyz(1)).^2 ...
+                +(points(i).xyz(2) - points(point1idx).xyz(2)).^2 ...
+                +(points(i).xyz(3) - points(point1idx).xyz(3)).^2 );
         end
     end
+    [~,point2idx ] = min(abs(dist - goal_dist));
+    
+    
+    
+    outputString = [points(point1idx).pointName, ' ', points(point2idx).pointName,' ',...
+        num2str(norm(points(point1idx).xyz - points(point2idx).xyz)), ' 0.001 3\n'];
+    fprintf(fileID, outputString);
+    
 end
-
-outputString = [points(point1idx).pointName, ' ', points(point2idx).pointName,' ',...
-    num2str(dist), ' 0.0001 3\n'];
-fprintf(fileID, outputString);
-
 
 % Control points
 fprintf(fileID, 'CONTROL\n');
