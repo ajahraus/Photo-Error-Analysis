@@ -99,6 +99,9 @@ classdef ImageClass
         end
         
         function FinalImagePoints = deleteNonUniqueImageCoords(obj, imageObs, points)
+            % This name is outdated, it delets Non Unique image Coordinates
+            % but it also reduces the number of observations to each point
+            % to only two images.
             
             % declare point observation array and range to point arrays
             pnts = zeros(size(imageObs,2),2);
@@ -147,7 +150,7 @@ classdef ImageClass
                 end
                 
                 % Determining which of the matching points should be
-                % deletered. If the points come from the same plane, then
+                % deleted. If the points come from the same plane, then
                 % the point with the id that comes first alphatetically
                 % should be used (to maximize redundancy). Otherwise, the
                 % point that is located closer to the camera should be
@@ -173,7 +176,6 @@ classdef ImageClass
                             % reduced by one.
                             for j = 1:length(points)
                                 if strcmp(points(j).pointName, imageObs(indexes(i,2)).point.pointName)
-                                    
                                     for k = 1:size(points(j).imgNames,1)
                                         if strcmp(points(j).imgNames(k,:), obj.ImageID)
                                             points(j).imgNames(k,:) = [];
