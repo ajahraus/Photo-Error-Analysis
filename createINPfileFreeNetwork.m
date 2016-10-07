@@ -59,7 +59,7 @@ fprintf(fileID, 'CONTROL\n');
 for i = 1:length(points)
     if points(i).numObs > 1
         outputString = [points(i).pointName, '   ', ...
-            num2str(points(i).xyz),' 0.01 0.01 0.01  \n'];
+            num2str(points(i).xyz),' 0.05 0.05 0.05  \n'];
         fprintf(fileID, outputString);
     end
 end
